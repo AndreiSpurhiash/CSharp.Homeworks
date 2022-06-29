@@ -1,5 +1,6 @@
 ﻿int number2 = 0;
 int number4 = 0;
+int sum = 0;
     for (; ; )
     {
         Console.WriteLine("Введите число 1 :");
@@ -32,5 +33,28 @@ int number4 = 0;
         }
     }
 
-    int sum = number2 + number4;
-Console.WriteLine($"Сумма числа {number2} и числа {number4} = {sum}");
+int sumTrue = number2 + number4;
+
+for (; ; )
+    {
+        Console.WriteLine("Введите сумму двух чисел :");
+        string text3 = (Console.ReadLine());
+
+        if (int.TryParse(text3, out int number5))
+        {
+            sum = number5;
+            if (sum==sumTrue)
+            {
+                Console.WriteLine($"Правильно сумма = {sumTrue} ");
+                break;
+            }
+            else
+            { 
+                Console.WriteLine("Неправильно сумма попробуйте сново! ");
+            }
+        }
+        else
+        {
+            Console.WriteLine("Введенный символ не является числом, введите число");
+        }
+     }
