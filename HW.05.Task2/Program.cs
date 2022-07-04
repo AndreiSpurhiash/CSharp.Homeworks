@@ -23,6 +23,8 @@ for (int i = keybord.Length - 1; i > pos; i--)
     keybord[i] = keybord[i - 1];
 }
 
+keybord[pos] = number;
+
 Console.WriteLine("Массив теперь:");
 for (int i = 0; i < keybord.Length; i++)
 {
