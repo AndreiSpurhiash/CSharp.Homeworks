@@ -37,7 +37,7 @@ Stopwatch stopWatch = new Stopwatch();
 stopWatch.Start();
 for (int i = masiw3.Length - 1; i >= 0; i--)
 {
-    Console.WriteLine(masiw3[i]);
+    
 }
 stopWatch.Stop();
 TimeSpan ts = stopWatch.Elapsed;
