@@ -1,0 +1,10 @@
+﻿Console.WriteLine(32);
+Int32 ner = new Int32();
+Console.WriteLine(ner);
+Console.WriteLine("Hello world");
+Console.WriteLine(DateTime.Now);
+Console.WriteLine(Guid.NewGuid());
+string one = "hi";
+string too = "hello";
+Console.WriteLine(Program.Equals(one,too));
+Console.WriteLine(Program.ReferenceEquals(one, too));
