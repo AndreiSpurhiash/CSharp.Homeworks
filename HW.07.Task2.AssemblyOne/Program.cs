@@ -3,6 +3,7 @@ class SportBike : Motorcycle
 {
     static void Main()
     {
+        SportBike honda = new SportBike();
         // public доступ без ограничений
         Console.WriteLine(maxSpeed);
 
@@ -21,6 +22,14 @@ class SportBike : Motorcycle
         // private protected  класс или тип, который являются производным  от содержащего класса в текущей сборке.
          Console.WriteLine(country);
 
+        honda.Lenght();
+        honda.StartEngine();
+        honda.Type();
+
+        // private
+        honda.Value();
+        
+   
     }
 
 }

@@ -24,5 +24,8 @@ namespace MotorcycleSpace
         internal void Type()
         { 
         }
+        private void Value()
+        { 
+        }
     }
 }

@@ -3,6 +3,7 @@ class Bike : Motorcycle
 {
     static void Main()
     {
+        Bike honda = new Bike();
         // public доступ без ограничений
         Console.WriteLine(maxSpeed);
 
@@ -20,6 +21,16 @@ class Bike : Motorcycle
 
         // private protected  класс или тип, который являются производным  от содержащего класса в текущей сборке.
         Console.WriteLine(country);
-    }
 
+        honda.Lenght();
+
+        // private protected класс или тип, который являются производным  от содержащего класса в текущей сборке.
+        honda.StartEngine();
+
+        // internal доступ доступен  только в той сборке, где описан
+        honda.Type();
+
+        // private доступен только в том типе, в котором определен
+        honda.Value();
+    }
 }
