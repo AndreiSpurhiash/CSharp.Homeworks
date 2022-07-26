@@ -1,0 +1,3 @@
+﻿
+
+Log.Logger = new LoggerConfiguration()
