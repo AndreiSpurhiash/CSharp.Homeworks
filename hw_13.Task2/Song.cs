@@ -75,7 +75,8 @@ namespace hw_13.Task2
         }
         public void TextJson()
         {
-            string jsonSystem = JsonSerializer.Serialize(_songAuthor);
+            var Title1 = _songName;
+            string jsonSystem = JsonSerializer.Serialize(Title1);
         }
      }   
 }
