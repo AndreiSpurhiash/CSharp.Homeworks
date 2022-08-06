@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Spectre.Console;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace hw_13.Task2
 {
@@ -70,6 +72,10 @@ namespace hw_13.Task2
                     AnsiConsole.MarkupLine($"[red]Жанр музыки[/] [yellow]:{Жанр.Попса}[/]");
                     break;
             }
+        }
+        public void TextJson()
+        {
+            string jsonSystem = JsonSerializer.Serialize(_songAuthor);
         }
      }   
 }
