@@ -4,9 +4,10 @@ using System.Threading.Tasks;
 using Final_project.DAL;
 using Final_project.DAL.Repositories;
 using Final_project.Domain.Entity;
-using Final_project.Service.Implementations;
+//using Final_project.Service.Implementations;
 using Microsoft.EntityFrameworkCore;
 
+SushiRepository sushiRepository = new SushiRepository();
 
 #region Sushi ADD
 
@@ -105,28 +106,28 @@ List<Sushi> sushi = new List<Sushi>()
 
 #endregion
 
+
 using (SushinContext db = new SushinContext())
 {
-    foreach (var item in sushi)
-    {
-        db.Sushis.Add(item);
-    }
+
+    db.AddRange(sushi);
+
     db.SaveChanges();
 
 }
 
 
 
-SushiRepository sushiRepository = new SushiRepository();
-SushiService sushiService = new SushiService();
-sushiService.GetSushi();
+
+////SushiService sushiService = new SushiService();
+//sushiService.GetSushi();
 //sushiRepository.GetList();
 
-//    Console.WriteLine($"Номер товара\t\t{"Название",-38}{"Стоимость",-50}Описание");
-//Console.WriteLine();
-//Console.WriteLine();
-//foreach (var item in sushi)
-//{
-//    Console.WriteLine(item.ToString());
-//    Console.WriteLine();
-//}
+Console.WriteLine($"Номер товара\t\t{"Название",-38}{"Стоимость",-50}Описание");
+Console.WriteLine();
+Console.WriteLine();
+foreach (var item in sushi)
+{
+    Console.WriteLine(item.ToString());
+    Console.WriteLine();
+}
