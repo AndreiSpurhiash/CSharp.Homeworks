@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Final_project.DAL;
-using Final_project.Models;
+using Final_project.DAL.Repositories;
+using Final_project.Domain.Entity;
+using Final_project.Service.Implementations;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -114,13 +116,17 @@ using (SushinContext db = new SushinContext())
 }
 
 
-    Console.WriteLine($"Номер товара\t\t{"Название",-38}{"Стоимость",-50}Описание");
-Console.WriteLine();
-Console.WriteLine();
-foreach (var item in sushi)
-{
-    Console.WriteLine(item.ToString());
-    Console.WriteLine();
-}
 
+SushiRepository sushiRepository = new SushiRepository();
+SushiService sushiService = new SushiService();
+sushiService.GetSushi();
+//sushiRepository.GetList();
 
+//    Console.WriteLine($"Номер товара\t\t{"Название",-38}{"Стоимость",-50}Описание");
+//Console.WriteLine();
+//Console.WriteLine();
+//foreach (var item in sushi)
+//{
+//    Console.WriteLine(item.ToString());
+//    Console.WriteLine();
+//}

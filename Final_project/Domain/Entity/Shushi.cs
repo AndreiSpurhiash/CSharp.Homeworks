@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Final_project.Models
+namespace Final_project.Domain.Entity
 {
     public class Sushi
     {

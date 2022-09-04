@@ -1,5 +1,5 @@
-﻿using Final_project.DAL;
-using Final_project.Models;
+﻿using Final_project.DAL.Interfaces;
+using Final_project.Domain.Entity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -7,44 +7,38 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Final_project.Repository
+namespace Final_project.DAL.Repositories
 {
-    internal class PostgreSushiRepository : IRepositorySushi<Sushi>
+    internal class SushiRepository : ISushiRepository
     {
         private SushinContext db;
-
-        public PostgreSushiRepository()
+        public SushiRepository()
         {
             db = new SushinContext();
         }
 
-        public IEnumerable<Sushi> GetSushiList()
-        {
-            return db.Sushis;
-        }
         public void Create(Sushi sushi)
         {
             db.Sushis.Add(sushi);
         }
 
-        public void Delete(Sushi number)
+        public void Delete(Sushi sushi)
         {
-            db.Sushis.Remove(number);
+            db.Sushis.Remove(sushi);
         }
-
 
         private bool disposed = false;
 
         public virtual void Dispose(bool disposing)
         {
-            if (!this.disposed)
+            if (!disposed)
             {
                 if (disposing)
                 {
                     db.Dispose();
                 }
             }
-            this.disposed = true;
+            disposed = true;
         }
 
         public void Dispose()
@@ -52,9 +46,18 @@ namespace Final_project.Repository
             Dispose(true);
             GC.SuppressFinalize(this);
         }
-       
 
-        public Sushi GetSushi(int number)
+        public Sushi GetID(int id)
+        {
+            return db.Sushis.Find(id);
+        }
+
+        public async Task<IEnumerable<Sushi>> GetListAsync()
+        {
+            return await db.Sushis.ToListAsync();
+        }
+
+        public Sushi GetNumer(int number)
         {
             return db.Sushis.Find(number);
         }
@@ -64,9 +67,9 @@ namespace Final_project.Repository
             db.SaveChanges();
         }
 
-        public void Update(Sushi sushi1)
+        public void Update(Sushi sushi)
         {
-            db.Entry(sushi1).State = EntityState.Modified;
+            db.Entry(sushi).State = EntityState.Modified;
         }
     }
 }
