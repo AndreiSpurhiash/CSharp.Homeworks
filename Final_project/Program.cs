@@ -1,133 +1,101 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Channels;
 using System.Threading.Tasks;
 using Final_project.DAL;
 using Final_project.DAL.Repositories;
 using Final_project.Domain.Entity;
-//using Final_project.Service.Implementations;
+using Final_project.Service.Implementations;
+using Final_project.Service.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Autofac;
+using Final_project;
+using Final_project.DAL.Interfaces;
 
 SushiRepository sushiRepository = new SushiRepository();
+SushiService sushiService = new SushiService(sushiRepository);
 
-#region Sushi ADD
 
-List<Sushi> sushi = new List<Sushi>()
+
+static IContainer BuildContainer()
 {
-    new Sushi(1, "Суши с авокадо(Авокадо Нигири)", 1.2,
-    "Ломтики кремообразного авокадо отлично сочетаются со свежесмолотым черным перцем"),
-
-    new Sushi(2, "Суши с гребешком (Хотатэгай Нигири)", 1.5,
-    "Гребешок морской, рис, васаби"),
-
-    new Sushi(3, "Суши с копченым лососем (Сяке гурме Нигири)", 2.5,
-    "Лосось копченый, рис, васаби"),
-
-    new Sushi(4, "Суши с лакедрой желтохвостой (Хамачи Нигири)", 3.5,
-    "Суши нигири с желтохвостой лакедрой, богатой жирными кислотами и полезными микроэлементами"),
-
-     new Sushi(5, "Суши с лососем (Сяке Нигири)", 1.9,
-    "Ролл с лососем, сливочным сыром и огурцом в оранжевой икре капеллана Масаго"),
-
-      new Sushi(6, "Суши с моллюском Хоккигай (Хоккигай Нигири)", 4.6,
-    "Лепные суши с моллюском хоккигаем"),
-
-       new Sushi(7, "Суши с окунем (Идзуми тай Нигири)", 2.1,
-    "Острые суши гункан с морским окунем, приправленные специальным острым соусом спайси"),
-
-       new Sushi(8, "Суши с омлетом (Тамаго Нигири)", 2.2,
-    "Суши нигири со специальным японским слоистым омлетом тамаго, приправленным соусом унаги"),
-
-       new Sushi(9, "Суши с осьминогом (Тако Нигири)", 4.9,
-    "Острые суши гункан с мясом осьминога, приправленным специальным острым соусом спайси"),
-
-       new Sushi(10, "Суши с тигровой креветкой (Эби Нигири)", 3.0,
-    "Запеченые острые суши с крупной креветкой, под икорно-сырным острым соусом"),
-
-       new Sushi(10, "Суши с тигровой креветкой (Эби Нигири)", 3.0,
-    "Запеченые острые суши с крупной креветкой, под икорно-сырным острым соусом"),
-
-       new Sushi(11, "Суши с тунцом (Магуро Нигири)", 3.1,
-    "Оригинальный ролл с тунцом, японским омлетом, помидором и майонезом в оранжевой икре"),
-
-       new Sushi(12, "Суши со сладкой креветкой (Ама Эби Нигири)", 3.9,
-    "Суши гункан с нарезанным мясом крупной креветки, приправленным специальным сладким соусом"),
-
-       new Sushi(13, "Суши с икрой летучей рыбы в огурце", 3.3,
-    "Суши гункан, заполненные икрой тобико летучей рыбы"),
-
-       new Sushi(14, "Суши с мидиями в огурце", 4.2,
-    "Запеченые острые суши с мидиями в огурце, под икорно сырным острым соусом"),
-
-       new Sushi(15, "Суши с салатными креветками в огурце", 3.5,
-    "Суши гункан, заполненные салатом из морских водорослей вакамэ, приправленным орехово-кунжутным соусом"),
-
-       new Sushi(16, "Суши с цыпленком в огурце", 3.6,
-    "Любимый ролл японского водяного Каппа - ролл с огурцом цыпленком и кунжутом"),
-
-       new Sushi(17, "Ролл Урамаки Острый гребешок", 4.0,
-    "Гребешок, огурец, тобико, творожный сыр"),
-
-       new Sushi(18, "Ролл Урамаки Острый кальмар", 4.9,
-    "Ролл с кальмаром, японским омлетом, икрой летучей рыбы и стружкой тунца"),
-
-       new Sushi(19, "Ролл Урамаки Острый копченый угорь", 4.2,
-    "Рис, нори, угорь, огурец, лосось, кимчи соус, лук зелёный"),
-
-       new Sushi(20, "Ролл Урамаки Острый морской окунь", 4.3,
-    "Теплый ролл с окунем, огурцом и соусом спайс"),
-
-       new Sushi(21, "Ролл Урамаки Острый тунец", 4.4,
-    "Ролл с окунем, японским омлетом, икрой летучей рыбы и стружкой тунца"),
-
-       new Sushi(22, "Ролл Урамаки Острый цыпленок", 4.5,
-    "Оригинальный ролл, необычное сочетание копченой курицы и бекона со свежими овощами и спайси-соусом"),
-
-       new Sushi(23, "Запеченный ролл Калифорния с крабом", 5.9,
-    "Аппетитный запеченный ролл с салатным крабом, огурцом и сыром сливочным, под шапкой и соуса спайс"),
-
-       new Sushi(24, "Запеченный ролл Калифорния с лососем", 5.9,
-    "Аппетитный запеченный ролл с нежным лососем, огурцом и сыром сливочным, под шапкой и майонеза"),
-
-       new Sushi(25, "Запеченный ролл с копченым угрем и омлетом", 5.2,
-    "Аппетитный запечённый ролл с копчёным угрём, японским омлетом, огурцом, мидиями, майонезом, икрой капеллана и сыром Пармезан"),
-
-        new Sushi(26, "Запеченный ролл с острым гребешком", 5.3,
-    "Рис, нори, лосось, гребешок, крем-сыр, авокадо, спайси соус, унаги соус"),
-
-         new Sushi(27, "Запеченный ролл с острым кальмаром", 5.4,
-    "Кальмар, фирменная сырная шапка, соус Унаги, кунжут, рис, нори"),
-
-          new Sushi(28, "Запеченный ролл с острым лососем", 5.5,
-    "Жгучий запеченный ролл с омлетом и творожным сыром под шапочкой из нежного лосося в остром соусе"),
-
-           new Sushi(29, "Запеченный ролл с острым тунцом", 5.5,
-    "Рис, водоросли нори, авокадо, огурец, сыр творожный, тунец, соус спайси, кунжут жареный, зелень, сыр пармезан, соус калифорния"),
-};
-
-#endregion
-
-
-using (SushinContext db = new SushinContext())
-{
-
-    db.AddRange(sushi);
-
-    db.SaveChanges();
-
+    var builder = new ContainerBuilder();
+    builder.RegisterType<SushiRepository>().As<ISushiRepository>();
+    builder.RegisterType<SushiService>().As<ISushiService>();
+    return builder.Build();
 }
 
+Console.WriteLine("Здравствуйте Вас приветствует сервис по заказу суши");
+Console.WriteLine();
+
+Console.WriteLine("Как вас зовут");
+Console.WriteLine();
+
+Console.WriteLine("Укажите имя :");
+Console.WriteLine();
+
+string NameClient = Console.ReadLine();
+
+Console.WriteLine();
+
+Console.WriteLine("Укажите номер телефона :");
+Console.WriteLine();
+ string PhoneClient = Console.ReadLine();
+
+Console.WriteLine("Укажите Адрес доставки :");
+Console.WriteLine();
+string AdresClient = Console.ReadLine();
+
+Console.WriteLine("Укажите электронную почту :");
+Console.WriteLine();
+string EmailClient = Console.ReadLine();
+
+Client client = new Client(NameClient, PhoneClient, AdresClient, EmailClient);
+
+Console.WriteLine($"Добрый День {client._NameClient}. Команда Sushi House работает на рынке доставки суши, роллов и других " +
+    $"блюд японской кухни уже более 6 лет, и все эти годы главным для нас является любовь и признание наших Гостей.");
+Console.WriteLine();
+
+Console.WriteLine($"{client._NameClient} Вы готовы приступить к заказу ???");
+Console.WriteLine();
+
+Console.WriteLine($"Нажмите кнопку для продолжения");
+Console.WriteLine();
+
+Console.ReadKey();
+
+Console.WriteLine($"Отлично {client._NameClient} тогда сейчас я вам покажу наше меню");
+Console.WriteLine();
 
 
+Console.WriteLine($"Нажмите кнопку для продолжения");
+Console.WriteLine();
+Console.ReadKey();
 
-////SushiService sushiService = new SushiService();
-//sushiService.GetSushi();
-//sushiRepository.GetList();
+var sushies = await sushiService.GetSushiAsync();
 
 Console.WriteLine($"Номер товара\t\t{"Название",-38}{"Стоимость",-50}Описание");
 Console.WriteLine();
 Console.WriteLine();
-foreach (var item in sushi)
+
+
+foreach (var item in sushies.Data.OrderBy(x=>x._Number))
 {
     Console.WriteLine(item.ToString());
     Console.WriteLine();
 }
+
+Console.WriteLine();
+
+Console.WriteLine($" {client._NameClient} укажите номер товара котрый Вы хотите добавить в карзину");
+Console.WriteLine();
+
+Console.WriteLine("Номер товара :");
+Console.WriteLine();
+
+Console.WriteLine("Количество:");
+Console.WriteLine();
+
+
+

@@ -13,12 +13,12 @@ namespace Final_project.Domain.Respons
 
         public StatusCode StatusCode { get; set; }
 
-        public T Date { get; set; }
+        public T Data { get; set; }
 
     }
 
     public interface IBaseResponse<T>
     { 
-        T Date { get; set; }
+        T Data { get; set; }
     }
 }

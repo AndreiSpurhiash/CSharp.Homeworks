@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Final_project.Migrations
 {
     [DbContext(typeof(SushinContext))]
-    [Migration("20220830153257_1")]
-    partial class _1
+    [Migration("20220904184530_sushi")]
+    partial class sushi
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -24,7 +24,7 @@ namespace Final_project.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Final_project.Sushi", b =>
+            modelBuilder.Entity("Final_project.Domain.Entity.Sushi", b =>
                 {
                     b.Property<Guid>("_Id")
                         .ValueGeneratedOnAdd()

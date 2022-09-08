@@ -10,6 +10,6 @@ namespace Final_project.Service.Interfaces
 {
     internal interface ISushiService
     {
-        Task<IBaseResponse<IEnumerable<Sushi>>> GetSushi();
+        Task<IBaseResponse<IEnumerable<Sushi>>> GetSushiAsync();
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Final_project.DAL.Interfaces;
+using Final_project.DAL.Repositories;
 using Final_project.Domain.Entity;
 using Final_project.Domain.Respons;
 using Final_project.Service.Interfaces;
@@ -9,48 +10,50 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-//namespace Final_project.Service.Implementations
-//{
-//    internal class SushiService : ISushiService
-//    {
-//        private readonly ISushiRepository _sushiRepository;
-//        private readonly DbContext _context;
+namespace Final_project.Service.Implementations
+{
+    internal class SushiService : ISushiService
+    {
+        private readonly SushiRepository _sushiRepository;
+        private readonly DbContext _context;
 
-//        public SushiService()
-//        {
-//        }
+        public SushiService()
+        {
+        }
 
-//        public SushiService(ISushiRepository sushiRepository)
-//        {
-//            _sushiRepository = sushiRepository;
-//        }
-    
-//        public async Task<IBaseResponse<IEnumerable<Sushi>>> GetSushi()
-//        {
-//            var baseResponse = new BaseResponse<IEnumerable<Sushi>>();
-//            try
-//            {
-//                var sushies =  _sushiRepository.GetListAsync();
+        public SushiService(SushiRepository sushiRepository)
+        {
+            _sushiRepository = sushiRepository;
+        }
 
-//                if (sushies == null)
-//                {
-//                    baseResponse.Discription = "Найдено 0 элементов";
-//                    baseResponse.StatusCode = Domain.Enum.StatusCode.OK;
-//                }
+        public async Task<IBaseResponse<IEnumerable<Sushi>>> GetSushiAsync()
+        {
+            var baseResponse = new BaseResponse<IEnumerable<Sushi>>();
+            var sushies = await _sushiRepository.GetListAsync().ConfigureAwait(false);
 
-//                baseResponse.Date = (IEnumerable<Sushi>)sushies;
-//                baseResponse.StatusCode = Domain.Enum.StatusCode.OK;
+            try
+            {
+               
 
-//                return baseResponse;
-//            }
-//            catch (Exception ex)
-//            {
-//                return new BaseResponse<IEnumerable<Sushi>>()
-//                {
-//                      Discription = $"[GetSushi] : {ex.Message}"
-//                };
-//            }
+                if (sushies == null)
+                {
+                    baseResponse.Discription = "Найдено 0 элементов";
+                    baseResponse.StatusCode = Domain.Enum.StatusCode.OK;
+                }
 
-//        }
-//    }
-//}
+                baseResponse.Data = (IEnumerable<Sushi>)sushies;
+                baseResponse.StatusCode = Domain.Enum.StatusCode.OK;
+
+                return baseResponse;
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<IEnumerable<Sushi>>()
+                {
+                    Discription = $"[GetSushi] : {ex.Message}"
+                };
+            }
+
+        }
+    }
+}

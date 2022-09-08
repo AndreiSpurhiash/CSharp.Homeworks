@@ -9,22 +9,21 @@ using System.Threading.Tasks;
 
 namespace Final_project.DAL.Repositories
 {
-    internal class SushiRepository : ISushiRepository
+    internal class OrderRepository : IOrderRepository
     {
         readonly SushinContext db;
-        public SushiRepository()
+        public OrderRepository()
         {
             db = new SushinContext();
         }
-
-        public void Create(Sushi sushi)
+        public void Create(Order order)
         {
-            db.Sushis.Add(sushi);
+            db.Orders.Add(order);
         }
 
-        public void Delete(Sushi sushi)
+        public void Delete(Order order)
         {
-            db.Sushis.Remove(sushi);
+            db.Orders.Remove(order);
         }
 
         private bool disposed = false;
@@ -47,19 +46,14 @@ namespace Final_project.DAL.Repositories
             GC.SuppressFinalize(this);
         }
 
-        public Sushi GetID(Guid id)
+        public Order GetID(Guid id)
         {
-            return db.Sushis.Find(id);
+            return db.Orders.Find(id);
         }
 
-        public async Task<IEnumerable<Sushi>> GetListAsync()
+        public async Task<IEnumerable<Order>> GetListAsync()
         {
-            return await db.Sushis.ToListAsync().ConfigureAwait(false);
-        }
-
-        public Sushi GetNumer(int number)
-        {
-            return db.Sushis.Find(number);
+            return await db.Orders.ToListAsync().ConfigureAwait(false);
         }
 
         public void Save()
@@ -67,9 +61,9 @@ namespace Final_project.DAL.Repositories
             db.SaveChanges();
         }
 
-        public void Update(Sushi sushi)
+        public void Update(Order order)
         {
-            db.Entry(sushi).State = EntityState.Modified;
+            db.Entry(order).State = EntityState.Modified;
         }
     }
 }

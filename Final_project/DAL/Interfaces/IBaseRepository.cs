@@ -10,7 +10,7 @@ namespace Final_project.DAL.Interfaces
     interface IBaseRepository<T> : IDisposable
     {
         Task<IEnumerable<T>> GetListAsync();
-        T GetID(int id);
+        T GetID(Guid id);
         void Create(T entity);
         void Update(T entity);
         void Delete(T entity);
