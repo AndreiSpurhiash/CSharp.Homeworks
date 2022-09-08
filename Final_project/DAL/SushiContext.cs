@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
+using Microsoft.EntityFrameworkCore.Design;
 
 namespace Final_project.DAL
 {
@@ -14,7 +15,11 @@ namespace Final_project.DAL
 
         public virtual DbSet<Client> Clients{ get; set; }
 
-        public SushinContext()
+        public SushinContext(DbContextOptions options) : base(options)
+        {
+
+        }
+        public SushinContext() 
         {
             Database.EnsureCreated();
         }
@@ -25,6 +30,28 @@ namespace Final_project.DAL
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Client>(entity =>
+            {
+                entity.ToTable("Clients");
+                entity.HasKey(x => x._IdClient).HasName("Key");
+                entity.Property(x => x._IdClient).HasColumnName(@"Id").HasColumnType("uuid").IsRequired();
+                entity.Property(x => x._NameClient).HasColumnName(@"Name").HasColumnType("text").IsRequired();
+                entity.Property(x => x._NumberPhone).HasColumnName(@"Phone").HasColumnType("text").IsRequired();
+                entity.Property(x => x._AdresClient).HasColumnName(@"Adres").HasColumnType("text").IsRequired();
+                entity.Property(x => x._MailClient).HasColumnName(@"Email").HasColumnType("string").IsRequired();
+            });
+
+            modelBuilder.Entity<Order>(entity =>
+            {
+                entity.ToTable("Orders");
+                entity.HasKey(x => x._IdOrder).HasName("Key");
+                entity.Property(x => x._IdOrder).HasColumnName(@"Id").HasColumnType("uuid").IsRequired();
+                entity.Property(x => x._DateOrder).HasColumnName(@"DateOrder").HasColumnType("date").IsRequired();
+                entity.Property(x => x._NameClient).HasColumnName(@"NameClient").HasColumnType("text").IsRequired();
+                entity.Property(x => x._PhoneClient).HasColumnName(@"PhoneClient").HasColumnType("int").IsRequired();
+                entity.Property(x => x._AdresOrder).HasColumnName(@"AdresOrder").HasColumnType("text").IsRequired();
+                entity.Property(x => x._Price).HasColumnName(@"Price").HasColumnType("decimal").IsRequired();
+            });
 
             modelBuilder.Entity<Sushi>(entity =>
             {
@@ -35,7 +62,6 @@ namespace Final_project.DAL
                 entity.Property(x => x._Name).HasColumnName(@"Name").HasColumnType("text").IsRequired();
                 entity.Property(x => x._Coast).HasColumnName(@"Coast").HasColumnType("numeric").IsRequired();
                 entity.Property(x => x._Description).HasColumnName(@"Description").HasColumnType("text").IsRequired();
-
             });
 
             modelBuilder.Entity<Sushi>().HasData(
@@ -131,32 +157,6 @@ namespace Final_project.DAL
                     new Sushi(30, "Запеченный ролл с острым тунцом", 5.5,
                      "Рис, водоросли нори, авокадо, огурец, сыр творожный, тунец, соус спайси, кунжут жареный, зелень, сыр пармезан, соус калифорния"),
                 });
-
-            modelBuilder.Entity<Client>(entity =>
-            {
-                entity.ToTable("Clients");
-                entity.HasKey(x => x._IdClient).HasName("Key");
-                entity.Property(x => x._IdClient).HasColumnName(@"Id").HasColumnType("uuid").IsRequired();
-                entity.Property(x => x._NameClient).HasColumnName(@"Name").HasColumnType("text").IsRequired();
-                entity.Property(x => x._NumberPhone).HasColumnName(@"Phone").HasColumnType("text").IsRequired();
-                entity.Property(x => x._AdresClient).HasColumnName(@"Adres").HasColumnType("text").IsRequired();
-                entity.Property(x => x._MailClient).HasColumnName(@"Email").HasColumnType("string").IsRequired();
-
-            });
-
-            modelBuilder.Entity<Order>(entity =>
-            {
-                entity.ToTable("Orders");
-                entity.HasKey(x => x._IdOrder).HasName("Key");
-                entity.Property(x => x._IdOrder).HasColumnName(@"Id").HasColumnType("uuid").IsRequired();
-                entity.Property(x => x._DateOrder).HasColumnName(@"DateOrder").HasColumnType("date").IsRequired();
-                entity.Property(x => x._NameClient).HasColumnName(@"NameClient").HasColumnType("text").IsRequired();
-                entity.Property(x => x._PhoneClient).HasColumnName(@"PhoneClient").HasColumnType("int").IsRequired();
-                entity.Property(x => x._AdresOrder).HasColumnName(@"AdresOrder").HasColumnType("text").IsRequired();
-                //entity.Property(x => x._Orders).HasColumnName(@"Order").HasColumnType("string").IsRequired();
-                entity.Property(x => x._Price).HasColumnName(@"Price").HasColumnType("decimal").IsRequired();
-
-            });
         }
     }
 }

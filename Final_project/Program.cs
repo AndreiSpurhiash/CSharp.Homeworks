@@ -12,11 +12,13 @@ using Microsoft.EntityFrameworkCore;
 using Autofac;
 using Final_project;
 using Final_project.DAL.Interfaces;
+using Microsoft.EntityFrameworkCore.Design;
 
-SushiRepository sushiRepository = new SushiRepository();
-SushiService sushiService = new SushiService(sushiRepository);
+OrderRepository orderRepository = new OrderRepository();
+ClientRepository clientRepository = new ClientRepository();
 
-
+var container = BuildContainer();
+var sushiService = container.Resolve<ISushiService>();
 
 static IContainer BuildContainer()
 {
@@ -50,8 +52,10 @@ string AdresClient = Console.ReadLine();
 Console.WriteLine("Укажите электронную почту :");
 Console.WriteLine();
 string EmailClient = Console.ReadLine();
+decimal Price = 10.2M;
 
 Client client = new Client(NameClient, PhoneClient, AdresClient, EmailClient);
+Order order = new Order(NameClient, PhoneClient, AdresClient, Price);
 
 Console.WriteLine($"Добрый День {client._NameClient}. Команда Sushi House работает на рынке доставки суши, роллов и других " +
     $"блюд японской кухни уже более 6 лет, и все эти годы главным для нас является любовь и признание наших Гостей.");
